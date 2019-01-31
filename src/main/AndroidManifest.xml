@@ -1,0 +1,11 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.fanjun.processroute">
+    <application>
+        <service android:name=".AidlRouteService">
+            <intent-filter>
+                <action android:name="${applicationId}.AidlRouteService" />
+            </intent-filter>
+        </service>
+    </application>
+</manifest>
+
