@@ -91,8 +91,8 @@
 ### 混淆方式
 ```Xml
 -keepclassmembers class **{
-    @com.fanjun.messagecenter.annotion.MHanderReceiveTag <methods>;
-    @com.fanjun.messagecenter.annotion.MHanderSendTag <methods>;
+    @com.fanjun.processroute.remote.ProcessId <fields>;
+    @com.fanjun.processroute.remote.RemoteServiceImpl <fields>;
 }
 -keepattributes Signature
 -keepattributes *Annotation*
@@ -111,14 +111,14 @@
 ```Xml
 <dependency>
   <groupId>com.fanjun</groupId>
-  <artifactId>messagecenter</artifactId>
-  <version>1.0.11</version>
+  <artifactId>processroute</artifactId>
+  <version>1.0.0</version>
   <type>pom</type>
 </dependency>
 ```
 #### Gradle
 ```Xml
- implementation 'com.fanjun:messagecenter:1.0.11'
+ implementation 'com.fanjun:processroute:1.0.0'
 ```
 #### 联系我
 ```Xml
