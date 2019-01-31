@@ -104,7 +104,7 @@
 -keepclassmembers class * {
    public <init> (org.json.JSONObject);
 }
-
+//注意，您的协议类及其子类要去掉混淆，否则框架调用时会失败
 ```
 ### 依赖
 #### Maven
