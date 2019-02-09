@@ -16,13 +16,13 @@
 ##### 您创建了一个组件名为Plug1，并以独立运行APK的方式配置好了
 #### 【Let`s start】
 ```Java
-        //在Common中新建一个接口协议RemoteServiceOfPlug1(即Plug1对外的通讯协议)，可以对外曝光很多功能，这里已登录为例
+        //在Common中新建一个接口协议RemoteServiceOfPlug1(即Plug1对外的通讯协议，协议必须继承RemoteService)，可以对外曝光很多功能，这里已登录为例
         //login：该方法名用于外部组件访问时识别其调用的功能
         //String username / String password： 这是实现登录需要的参数，参数支持[0-10]个，类型不限（基本类型必须换成其包装类）
         //CallbackProcessor<String> callbackProcessor： 这是回调处理器，协议的所有方法都必须将该参数放置最末，是必输参数
         //CallbackProcessor<String> callbackProcessor： <String>用于约束回调的类型，类型不限
         //void：协议无需返回参数，无论返回什么值均为无效，所有回调均使用CallbackProcessor处理
-        public interface RemoteServiceOfPlug1 {
+        public interface RemoteServiceOfPlug1 extends RemoteService {
           /**
            * 登录
            * @param username 姓名
@@ -53,7 +53,7 @@
         //ProcessId, RemoteServiceImpl：缺一不可。当然你也不用太担心，如果协议上有任何的地方有问题，框架都会在调用方回调错误信息以提示您
         @ProcessId("com.demo.plug1")
         @RemoteServiceImpl("com.demo.plug1.PlugRemoteService")
-        public interface RemoteServiceOfPlug1 {
+        public interface RemoteServiceOfPlug1 extends RemoteService{
           /**
            * 登录
            * @param username 姓名
@@ -112,13 +112,13 @@
 <dependency>
   <groupId>com.fanjun</groupId>
   <artifactId>processroute</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <type>pom</type>
 </dependency>
 ```
 #### Gradle
 ```Xml
- implementation 'com.fanjun:processroute:1.0.0'
+ implementation 'com.fanjun:processroute:1.0.1'
 ```
 #### 联系我
 ```Xml
