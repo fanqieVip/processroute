@@ -75,7 +75,7 @@
         //假设您在某个组件中需要Plug1模块的登录功能,使用ProcessRoute发送一个进程事件消息即可
         //context：上下文
         //RemoteServiceOfPlug1.class: 指向的通讯协议
-        //RemoteServiceOfPlug1._login: APT生成的类，可直接访问协议类的方法名
+        //RemoteServiceOfPlug1_.login: APT生成的类，可直接访问协议类的方法名
         //"login"：调用的功能
         //params: 与通讯协议的login功能中要求的参数一样，但必须确保参数数量、类型、顺序一致
         //RouteListener<String>(): <String>与通讯协议的login功能中要求的回调参数一样
@@ -83,7 +83,7 @@
         //callback(): 事件回调了，且成功带回需要的数据。注意：只有Plug1模块调用了callbackProcessor.callback()才会回调
         //fail(): 事件回调了，但失败了。如Plug1未安装、连接失败、未遵守协议、Plug1的实现过程报错都会在这个方法中将详细错误信息带过来
         ProcessRoute.send(context,
-                        RouteReq.build(RemoteServiceOfPlug1.class,RemoteServiceOfPlug1._login)
+                        RouteReq.build(RemoteServiceOfPlug1.class,RemoteServiceOfPlug1_.login)
                                 .params("18800000000", "198123545masd")
                                 .routeListener(new RouteListener<String>() {
                                     @Override
