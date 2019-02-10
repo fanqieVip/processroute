@@ -1,20 +1,25 @@
 # ProcessRoute for Android 跨进程事件路由框架
 ## 用于解决安卓组件化下各组件间交叉通讯的问题
-### 与ARoater不同的是，ProcessRoute是依托AIDL作为通讯纽带，以接口协议为中间件，采取事件机制进行通讯的框架
-### 支持跨进程发送消息，且自由回调
-### 通讯协议为Interface接口，可指定通讯进程、输入参数（数量最大10个）、回调参数
-### 全程对象化传输，无需关注对象的序列化问题（前提：各组件共同依赖于模型包）
-### 自动处理跨进程多线程异步问题
-### 可跟踪通讯过程中及接口协议关联的独立组件执行过程中所有异常
-### 无需配置，只需在各组件依赖的Common包引入即可集成
-### 使用方式
+## 与ARoater不同的是，ProcessRoute是依托AIDL作为通讯纽带，以接口协议为中间件，采取事件机制进行通讯的框架
+## 支持跨进程发送消息，且自由回调
+## 通讯协议为Interface接口，可指定通讯进程、输入参数（数量最大10个）、回调参数
+## 全程对象化传输，无需关注对象的序列化问题（前提：各组件共同依赖于模型包）
+## 自动处理跨进程多线程异步问题
+## 可跟踪通讯过程中及接口协议关联的独立组件执行过程中所有异常
+## 无需配置，只需在各组件依赖的Common包引入即可集成
 
-#### 【前提】
-##### 你已知道如何进行组件化的基础框架搭建，如不太清楚可参照该入门教程 https://blog.csdn.net/guiying712/article/details/55213884 （请忽略组件通讯相关内容，不值得浪费时间）
-##### 您将各组件包括主工程均引用了一个公用库（下面统称：Common）
-##### 您将各组件包括主工程的模型均放入了引用的Common包中
-##### 您创建了一个组件名为Plug1，并以独立运行APK的方式配置好了
-#### 【Let`s start】
+## 更新日志
+### 【1.0.1】2019-02-09
+#### 变更协议类，要求必须继承RemoteService，这样便于后期做OOP设计，也更方便做混淆配置
+
+## 使用方式
+
+### 【前提】
+#### 你已知道如何进行组件化的基础框架搭建，如不太清楚可参照该入门教程 https://blog.csdn.net/guiying712/article/details/55213884 （请忽略组件通讯相关内容，不值得浪费时间）
+#### 您将各组件包括主工程均引用了一个公用库（下面统称：Common）
+#### 您将各组件包括主工程的模型均放入了引用的Common包中
+#### 您创建了一个组件名为Plug1，并以独立运行APK的方式配置好了
+### 【Let`s start】
 ```Java
         //在Common中新建一个接口协议RemoteServiceOfPlug1(即Plug1对外的通讯协议，协议必须继承RemoteService)，可以对外曝光很多功能，这里已登录为例
         //login：该方法名用于外部组件访问时识别其调用的功能
@@ -87,8 +92,9 @@
                                     public void fail(String errorMsg) {}
                                 }));
 ```
-#### 【end】
-### 混淆方式
+### 【end】
+
+## 混淆方式
 ```Xml
 -keepclassmembers class **{
     @com.fanjun.processroute.remote.ProcessId <fields>;
@@ -106,8 +112,9 @@
 }
 -keep public class * extends com.fanjun.processroute.remote.RemoteService
 ```
-### 依赖
-#### Maven
+
+## 依赖
+### Maven
 ```Xml
 <dependency>
   <groupId>com.fanjun</groupId>
@@ -116,11 +123,12 @@
   <type>pom</type>
 </dependency>
 ```
-#### Gradle
+### Gradle
 ```Xml
  implementation 'com.fanjun:processroute:1.0.1'
 ```
-#### 联系我
+
+## 联系我
 ```Xml
 我的博客：https://blog.csdn.net/qwe112113215
 ```
