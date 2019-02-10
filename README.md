@@ -9,8 +9,9 @@
 ## 无需配置，只需在各组件依赖的Common包引入即可集成
 
 ## 更新日志
-### 【1.0.1】2019-02-09
+### 2019-02-09
 #### 变更协议类，要求必须继承RemoteService，这样便于后期做OOP设计，也更方便做混淆配置
+#### 新增APT处理器，在协议类上添加@BindMethod注解可自动生成该协议类同名+"_"的配套类，可通过该类获取协议的方法名。
 
 ## 使用方式
 
@@ -56,6 +57,8 @@
         //ProcessId: 用于指定该协议从属于哪个组件，注意是组件的包名，如果是在整个工程全量打包开发的情况下需替换为主工程的包名，为了方便您可通过gradle自动配置
         //RemoteServiceImpl: 用于指定该协议的实现类，需输入实现类的全路径
         //ProcessId, RemoteServiceImpl：缺一不可。当然你也不用太担心，如果协议上有任何的地方有问题，框架都会在调用方回调错误信息以提示您
+        //BindMethod APT注解，可自动生成方法RemoteServiceOfPlug1_.class（需要Make一下工程），在需要传方法名的地方建议使用该自动生成的类取值，以达到规范的目的
+        @BindMethod
         @ProcessId("com.demo.plug1")
         @RemoteServiceImpl("com.demo.plug1.PlugRemoteService")
         public interface RemoteServiceOfPlug1 extends RemoteService{
@@ -72,6 +75,7 @@
         //假设您在某个组件中需要Plug1模块的登录功能,使用ProcessRoute发送一个进程事件消息即可
         //context：上下文
         //RemoteServiceOfPlug1.class: 指向的通讯协议
+        //RemoteServiceOfPlug1._login: APT生成的类，可直接访问协议类的方法名
         //"login"：调用的功能
         //params: 与通讯协议的login功能中要求的参数一样，但必须确保参数数量、类型、顺序一致
         //RouteListener<String>(): <String>与通讯协议的login功能中要求的回调参数一样
@@ -79,7 +83,7 @@
         //callback(): 事件回调了，且成功带回需要的数据。注意：只有Plug1模块调用了callbackProcessor.callback()才会回调
         //fail(): 事件回调了，但失败了。如Plug1未安装、连接失败、未遵守协议、Plug1的实现过程报错都会在这个方法中将详细错误信息带过来
         ProcessRoute.send(context,
-                        RouteReq.build(RemoteServiceOfPlug1.class,"login")
+                        RouteReq.build(RemoteServiceOfPlug1.class,RemoteServiceOfPlug1._login)
                                 .params("18800000000", "198123545masd")
                                 .routeListener(new RouteListener<String>() {
                                     @Override
@@ -114,18 +118,10 @@
 ```
 
 ## 依赖
-### Maven
-```Xml
-<dependency>
-  <groupId>com.fanjun</groupId>
-  <artifactId>processroute</artifactId>
-  <version>1.0.1</version>
-  <type>pom</type>
-</dependency>
-```
 ### Gradle
 ```Xml
- implementation 'com.fanjun:processroute:1.0.1'
+ implementation 'com.fanjun:processroute:1.0.3'
+ annotationProcessor 'com.fanjun:processroutecompiler:1.0.0'
 ```
 
 ## 联系我
