@@ -140,7 +140,7 @@
 -keepclassmembers class * {
    public <init> (org.json.JSONObject);
 }
--keep public class * extends com.fanjun.processroute.remote.RemoteService
+-keep public interface * extends com.fanjun.processroute.remote.RemoteService
 ```
 
 ## 依赖
