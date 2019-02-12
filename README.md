@@ -9,6 +9,10 @@
 ## 无需配置，只需在各组件依赖的Common包引入即可集成
 
 ## 更新日志
+### 2019-02-12
+#### 新增ProcessRoute.registProcessService(boolean isModuleInstallApk, Application application, Class... remoteClss)方法，用于在Application中对RemoteService进行注册。
+#### isModuleInstallApk参数： true 表示组件以Application运行， false 表示组件以library运行
+#### 通过这个方法，你可以不在频繁去改动RemoteService的@ProcessId值了
 ### 2019-02-09
 #### 变更协议类，要求必须继承RemoteService，这样便于后期做OOP设计，也更方便做混淆配置
 #### 新增APT处理器，在协议类上添加@BindMethod注解可自动生成该协议类同名+"_"的配套类，可通过该类获取协议的方法名。
@@ -54,13 +58,35 @@
 ```
 ```Java
         //我们需要对RemoteServiceOfPlug1设置依赖关系
-        //ProcessId: 用于指定该协议从属于哪个组件，注意是组件的包名，如果是在整个工程全量打包开发的情况下需替换为主工程的包名，为了方便您可通过gradle自动配置
+        //ProcessId: 用于指定该协议从属于哪个组件，注意是组件以Application方式编译时的ApplicationId
         //RemoteServiceImpl: 用于指定该协议的实现类，需输入实现类的全路径
         //ProcessId, RemoteServiceImpl：缺一不可。当然你也不用太担心，如果协议上有任何的地方有问题，框架都会在调用方回调错误信息以提示您
         //BindMethod APT注解，可自动生成方法RemoteServiceOfPlug1_.class（需要Make一下工程），在需要传方法名的地方建议使用该自动生成的类取值，以达到规范的目的
         @BindMethod
         @ProcessId("com.demo.plug1")
         @RemoteServiceImpl("com.demo.plug1.PlugRemoteService")
+        public interface RemoteServiceOfPlug1 extends RemoteService{
+          /**
+           * 登录
+           * @param username 姓名
+           * @param password 密码
+           * @param callbackProcessor @String 回调返回token
+           */
+          void login(String username, String password, CallbackProcessor<String> callbackProcessor);
+        }
+```
+```Java
+        //我们需要对RemoteServiceOfPlug1在Application中注册
+        ... extends Application {
+            @Override
+            public void onCreate() {
+                super.onCreate();
+                //您的所有RemoteService都需要注册
+                //只需通过第一个参数配置是否组件以Application模式运行
+                //建议第一个boolean参数放到Gradle中配置
+                ProcessRoute.registProcessService(true, this, RemoteServiceOfPlug1.class);
+            }
+        }
         public interface RemoteServiceOfPlug1 extends RemoteService{
           /**
            * 登录
@@ -120,8 +146,8 @@
 ## 依赖
 ### Gradle
 ```Xml
- implementation 'com.fanjun:processroute:1.0.3'
- annotationProcessor 'com.fanjun:processroutecompiler:1.0.0'
+ implementation 'com.fanjun:processroute:1.0.4'
+ annotationProcessor 'com.fanjun:processroutecompiler:1.0.3'
 ```
 
 ## 联系我
