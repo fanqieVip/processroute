@@ -126,10 +126,6 @@
 
 ## 混淆方式
 ```Xml
--keepclassmembers class **{
-    @com.fanjun.processroute.remote.ProcessId <fields>;
-    @com.fanjun.processroute.remote.RemoteServiceImpl <fields>;
-}
 -keepattributes Signature
 -keepattributes *Annotation*
 -keep class sun.misc.Unsafe { *; }
