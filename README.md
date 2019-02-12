@@ -16,6 +16,7 @@
 #### 您将各组件包括主工程的模型均放入了引用的Common包中
 #### 您创建了一个组件名为Plug1，并以独立运行APK的方式配置好了
 ### 【Let`s start】
+#### 通过接口约束远程方法、请求参数、回调参数为双方共同遵守的协议
 ```Java
         //在Common中新建一个接口协议RemoteServiceOfPlug1，可以对外曝光很多功能，这里已登录为例
         //login：该方法名用于外部组件访问时识别其调用的功能
@@ -33,6 +34,7 @@
           void login(String username, String password, CallbackProcessor<String> callbackProcessor);
         }
 ```
+#### 通过在组件内实现协议来与宿主的解耦
 ```Java
         //在Plug1中新建一个接口协议RemoteServiceOfPlug1Impl实现RemoteServiceOfPlug1协议
         //在这里你可以尽情的玩耍了
@@ -47,6 +49,7 @@
           }
         }
 ```
+#### 通过@ProcessId、RemoteServiceImpl搭建组件通讯桥梁，并使用@BindMethod自动映射方法名来杜绝协议变更风险
 ```Java
         //我们需要对RemoteServiceOfPlug1设置依赖关系
         //ProcessId: 用于指定该协议从属于哪个组件，注意是组件以Application方式编译时的ApplicationId
@@ -66,6 +69,7 @@
           void login(String username, String password, CallbackProcessor<String> callbackProcessor);
         }
 ```
+#### 通过registProcessService动态映射@ProcessId注解值，使组件得以自动适配Libraries和Application模式
 ```Java
         //我们需要对RemoteServiceOfPlug1在Application中注册
         ... extends Application {
@@ -79,6 +83,7 @@
             }
         }
 ```
+#### 简洁高效的使用协议进行组件间通讯
 ```Java
         //假设您在某个组件中需要Plug1模块的登录功能,使用ProcessRoute发送一个进程事件消息即可
         //context：上下文
@@ -94,12 +99,13 @@
                         RouteReq.build(RemoteServiceOfPlug1.class,RemoteServiceOfPlug1_.login)
                                 .params("18800000000", "198123545masd")
                                 .routeListener(new RouteListener<String>() {
+                                    //可选实现
                                     @Override
                                     public void prepare() {}
-
+                                       
                                     @Override
                                     public void callback(String obj) {}
-
+                                    //可选实现
                                     @Override
                                     public void fail(String errorMsg) {}
                                 }));
