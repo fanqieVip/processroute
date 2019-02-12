@@ -8,15 +8,6 @@
 ## 可跟踪通讯过程中及接口协议关联的独立组件执行过程中所有异常
 ## 无需配置，只需在各组件依赖的Common包引入即可集成
 
-## 更新日志
-### 2019-02-12
-#### 新增ProcessRoute.registProcessService(boolean isModuleInstallApk, Application application, Class... remoteClss)方法，用于在Application中对RemoteService进行注册。
-#### isModuleInstallApk参数： true 表示组件以Application运行， false 表示组件以library运行
-#### 通过这个方法，你可以不在频繁去改动RemoteService的@ProcessId值了
-### 2019-02-09
-#### 变更协议类，要求必须继承RemoteService，这样便于后期做OOP设计，也更方便做混淆配置
-#### 新增APT处理器，在协议类上添加@BindMethod注解可自动生成该协议类同名+"_"的配套类，可通过该类获取协议的方法名。
-
 ## 使用方式
 
 ### 【前提】
@@ -26,13 +17,13 @@
 #### 您创建了一个组件名为Plug1，并以独立运行APK的方式配置好了
 ### 【Let`s start】
 ```Java
-        //在Common中新建一个接口协议RemoteServiceOfPlug1(即Plug1对外的通讯协议，协议必须继承RemoteService)，可以对外曝光很多功能，这里已登录为例
+        //在Common中新建一个接口协议RemoteServiceOfPlug1，可以对外曝光很多功能，这里已登录为例
         //login：该方法名用于外部组件访问时识别其调用的功能
         //String username / String password： 这是实现登录需要的参数，参数支持[0-10]个，类型不限（基本类型必须换成其包装类）
         //CallbackProcessor<String> callbackProcessor： 这是回调处理器，协议的所有方法都必须将该参数放置最末，是必输参数
         //CallbackProcessor<String> callbackProcessor： <String>用于约束回调的类型，类型不限
         //void：协议无需返回参数，无论返回什么值均为无效，所有回调均使用CallbackProcessor处理
-        public interface RemoteServiceOfPlug1 extends RemoteService {
+        public interface RemoteServiceOfPlug1 {
           /**
            * 登录
            * @param username 姓名
@@ -65,7 +56,7 @@
         @BindMethod
         @ProcessId("com.demo.plug1")
         @RemoteServiceImpl("com.demo.plug1.PlugRemoteService")
-        public interface RemoteServiceOfPlug1 extends RemoteService{
+        public interface RemoteServiceOfPlug1 {
           /**
            * 登录
            * @param username 姓名
@@ -86,15 +77,6 @@
                 //建议第一个boolean参数放到Gradle中配置
                 ProcessRoute.registProcessService(true, this, RemoteServiceOfPlug1.class);
             }
-        }
-        public interface RemoteServiceOfPlug1 extends RemoteService{
-          /**
-           * 登录
-           * @param username 姓名
-           * @param password 密码
-           * @param callbackProcessor @String 回调返回token
-           */
-          void login(String username, String password, CallbackProcessor<String> callbackProcessor);
         }
 ```
 ```Java
@@ -142,7 +124,7 @@
 ## 依赖
 ### Gradle
 ```Xml
- implementation 'com.fanjun:processroute:1.0.4'
+ implementation 'com.fanjun:processroute:1.0.5'
  annotationProcessor 'com.fanjun:processroutecompiler:1.0.3'
 ```
 
