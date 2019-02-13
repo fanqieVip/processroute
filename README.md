@@ -90,7 +90,7 @@
         //prepare(): 事件已发出但尚且没有回调
         //callback(): 事件回调了，且成功带回需要的数据。注意：只有Plug1模块调用了callbackProcessor.callback()才会回调
         //fail(): 事件回调了，但失败了。如Plug1未安装、连接失败、未遵守协议、Plug1的实现过程报错都会在这个方法中将详细错误信息带过来
-        RouteReq.build(RemoteServiceOfPlug1Impl.login, "18800000000", "198123545masd")
+        RouteReq.create(RemoteServiceOfPlug1Impl.login, "18800000000", "198123545masd")
                                 .routeListener(new RouteListener<String>() {
                                     //可选实现
                                     @Override
