@@ -49,7 +49,7 @@
           }
         }
 ```
-#### 通过@ProcessId、RemoteServiceImpl搭建组件通讯桥梁，并使用@BindMethod自动映射方法名来杜绝协议变更风险
+#### 通过@ProcessId、RemoteServiceImpl搭建组件通讯桥梁
 ```Java
         //我们需要对RemoteServiceOfPlug1设置依赖关系
         //ProcessId: 用于指定该协议从属于哪个组件，注意是组件以Application方式编译时的ApplicationId
