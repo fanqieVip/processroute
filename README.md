@@ -54,9 +54,8 @@
         //我们需要对RemoteServiceOfPlug1设置依赖关系
         //ProcessId: 用于指定该协议从属于哪个组件，注意是组件以Application方式编译时的ApplicationId
         //RemoteServiceImpl: 用于指定该协议的实现类，需输入实现类的全路径
+        //RemoteServiceImpl: APT注解可自动生成方法RemoteServiceOfPlug1Impl.class（需要Make一下工程），在需要传方法名的地方建议使用该自动生成的类取值，以达到规范的目的
         //ProcessId, RemoteServiceImpl：缺一不可。当然你也不用太担心，如果协议上有任何的地方有问题，框架都会在调用方回调错误信息以提示您
-        //BindMethod APT注解，可自动生成方法RemoteServiceOfPlug1_.class（需要Make一下工程），在需要传方法名的地方建议使用该自动生成的类取值，以达到规范的目的
-        @BindMethod
         @ProcessId("com.demo.plug1")
         @RemoteServiceImpl("com.demo.plug1.PlugRemoteService")
         public interface RemoteServiceOfPlug1 {
@@ -87,17 +86,13 @@
 ```Java
         //假设您在某个组件中需要Plug1模块的登录功能,使用ProcessRoute发送一个进程事件消息即可
         //context：上下文
-        //RemoteServiceOfPlug1.class: 指向的通讯协议
-        //RemoteServiceOfPlug1_.login: APT生成的类，可直接访问协议类的方法名
-        //"login"：调用的功能
-        //params: 与通讯协议的login功能中要求的参数一样，但必须确保参数数量、类型、顺序一致
+        //RemoteServiceOfPlug1Impl.login: APT生成的类，可直接访问协议类的login方法名
+        //"18800000000", "198123545masd": 与通讯协议的login功能中要求的参数一样，但必须确保参数数量、类型、顺序一致
         //RouteListener<String>(): <String>与通讯协议的login功能中要求的回调参数一样
         //prepare(): 事件已发出但尚且没有回调
         //callback(): 事件回调了，且成功带回需要的数据。注意：只有Plug1模块调用了callbackProcessor.callback()才会回调
         //fail(): 事件回调了，但失败了。如Plug1未安装、连接失败、未遵守协议、Plug1的实现过程报错都会在这个方法中将详细错误信息带过来
-        ProcessRoute.send(context,
-                        RouteReq.build(RemoteServiceOfPlug1.class,RemoteServiceOfPlug1_.login)
-                                .params("18800000000", "198123545masd")
+        RouteReq.build(RemoteServiceOfPlug1Impl.login, "18800000000", "198123545masd")
                                 .routeListener(new RouteListener<String>() {
                                     //可选实现
                                     @Override
@@ -108,7 +103,7 @@
                                     //可选实现
                                     @Override
                                     public void fail(String errorMsg) {}
-                                }));
+                                }).send(context)
 ```
 ### 【end】
 
@@ -124,14 +119,14 @@
 -keepclassmembers class * {
    public <init> (org.json.JSONObject);
 }
--keep @com.fanjun.processroute.remote.RemoteServiceImpl class * {*;}
+-keep @com.fanjun.processroute.annotation.RemoteServiceImpl class * {*;}
 ```
 
 ## 依赖
 ### Gradle
 ```Xml
- implementation 'com.fanjun:processroute:1.0.5'
- annotationProcessor 'com.fanjun:processroutecompiler:1.0.3'
+ implementation 'com.fanjun:processroute:1.0.6'
+ annotationProcessor 'com.fanjun:processroutecompiler:1.0.4'
 ```
 
 ## 联系我
