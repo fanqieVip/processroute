@@ -68,17 +68,15 @@
           void login(String username, String password, CallbackProcessor<String> callbackProcessor);
         }
 ```
-#### 通过registProcessService动态映射@ProcessId注解值，使组件得以自动适配Libraries和Application模式
+#### 在Application中注册
 ```Java
-        //我们需要对RemoteServiceOfPlug1在Application中注册
+        //我们需要对RemoteServiceOfPlug1在公共的Application中注册
         ... extends Application {
             @Override
             public void onCreate() {
                 super.onCreate();
-                //您的所有RemoteService都需要注册
-                //只需通过第一个参数配置是否组件以Application模式运行
-                //建议第一个boolean参数放到Gradle中配置
-                ProcessRoute.registProcessService(true, this, RemoteServiceOfPlug1.class);
+                //isModuleAsApk: 组件是否以独立APK编译(建议配置到gradle中)
+                ProcessRoute.ini(Application application, boolean isModuleAsApk);
             }
         }
 ```
@@ -103,7 +101,7 @@
                                     //可选实现
                                     @Override
                                     public void fail(String errorMsg) {}
-                                }).send(context)
+                                }).send()
 ```
 ### 【end】
 
@@ -125,8 +123,8 @@
 ## 依赖
 ### Gradle
 ```Xml
- implementation 'com.fanjun:processroute:1.0.6'
- annotationProcessor 'com.fanjun:processroutecompiler:1.0.4'
+ implementation 'com.fanjun:processroute:1.0.7'
+ annotationProcessor 'com.fanjun:processroutecompiler:1.0.5'
 ```
 
 ## 联系我
