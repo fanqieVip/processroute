@@ -70,7 +70,7 @@
 ```
 #### 在Application中注册
 ```Java
-        //我们需要对RemoteServiceOfPlug1在公共的Application中注册
+        //我们需要在公共的Application中注册
         ... extends Application {
             @Override
             public void onCreate() {
