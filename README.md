@@ -153,6 +153,8 @@ public class BaseApplication extends Application {
    public <init> (org.json.JSONObject);
 }
 -keep @com.fanjun.processroute.annotation.RemoteServiceImpl class * {*;}
+-keepnames class com.fanjun.processroute.apt.** { *; }
+-keepnames class * implements com.fanjun.processroute.application.ApplicationDelegate { *; }
 ```
 
 ## 依赖
