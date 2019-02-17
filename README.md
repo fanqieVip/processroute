@@ -21,7 +21,7 @@
         //在Common中新建一个接口协议RemoteServiceOfPlug1，可以对外曝光很多功能，这里已登录为例
         //login：该方法名用于外部组件访问时识别其调用的功能
         //String username / String password： 这是实现登录需要的参数，参数支持[0-10]个，类型不限（基本类型必须换成其包装类）
-        //CallbackProcessor<String> callbackProcessor： 这是回调处理器，协议的所有方法都必须将该参数放置最末，是必输参数
+        //CallbackProcessor<String> callbackProcessor： 这是回调处理器，协议的所有方法都必须将该参数放置最前，是必输参数
         //CallbackProcessor<String> callbackProcessor： <String>用于约束回调的类型，类型不限
         //void：协议无需返回参数，无论返回什么值均为无效，所有回调均使用CallbackProcessor处理
         public interface RemoteServiceOfPlug1 {
@@ -31,7 +31,7 @@
            * @param password 密码
            * @param callbackProcessor @String 回调返回token
            */
-          void login(String username, String password, CallbackProcessor<String> callbackProcessor);
+          void login(CallbackProcessor<String> callbackProcessor，String username, String password);
         }
 ```
 #### 通过在组件内实现协议来与宿主的解耦
@@ -42,7 +42,7 @@
         //"Hello!": 该参数与<String>依赖，您必须使用相同的类型进行回调
         public class RemoteServiceOfPlug1Impl implements RemoteServiceOfPlug1 {
           @Override
-          public void login(String username, String password, CallbackProcessor<String> callbackProcessor) {
+          public void login(CallbackProcessor<String> callbackProcessor，String username, String password) {
               System.out.print("username=>"+ username);
               System.out.print("password=>"+ password);
               callbackProcessor.callback("Hello!");
@@ -65,7 +65,7 @@
            * @param password 密码
            * @param callbackProcessor @String 回调返回token
            */
-          void login(String username, String password, CallbackProcessor<String> callbackProcessor);
+          void login(CallbackProcessor<String> callbackProcessor，String username, String password);
         }
 ```
 #### 在Common包中的Application中注册
@@ -139,7 +139,36 @@ public class BaseApplication extends Application {
     }
 }
 ```
-
+### 2.实现RemoteService的远程方法AOP编程
+#### 以会话拦截为例。在Plug1模块中新建LoginProcessor 并继承RemoteServiceProcessor协议
+```Java
+public class LoginProcessor extends RemoteServiceProcessor {
+    /**
+     * AOP处理器
+     * @param method 对应RemoteService的远程方法名
+     * @param callbackProcessor 对应RemoteService的callbackProcessor回调处理器，即您也可以在拦截器中回调数据
+     * @param params 对应RemoteService的远程方法参数
+     * @return 是否继续执行RemoteService的远程方法，返回false则被拦截
+     */
+    @Override
+    public boolean process(Method method, CallbackProcessor callbackProcessor, Object... params) {
+        return true;
+    }
+}
+```
+#### 在Plug1模块的RemoteServiceOfPlug1远程协议实现类中，在需要拦截的远程方法中加入@Processor({LoginProcessor.class})即可实现拦截
+```Java
+public class RemoteServiceOfPlug1Impl implements RemoteServiceOfPlug1 {
+          
+          @Processor({LoginProcessor.class})//AOP处理器支持多个，以","号隔开即可。如多个处理器中有1个返回false，则被拦截
+          @Override
+          public void login(CallbackProcessor<String> callbackProcessor，String username, String password) {
+              System.out.print("username=>"+ username);
+              System.out.print("password=>"+ password);
+              callbackProcessor.callback("Hello!");
+          }
+        }
+```
 ## 混淆方式
 ```Xml
 -keepattributes Signature
