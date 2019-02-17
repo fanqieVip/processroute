@@ -155,12 +155,13 @@ public class BaseApplication extends Application {
 -keep @com.fanjun.processroute.annotation.RemoteServiceImpl class * {*;}
 -keepnames class com.fanjun.processroute.apt.** { *; }
 -keepnames class * implements com.fanjun.processroute.application.ApplicationDelegate { *; }
+-keep public class * extends com.fanjun.processroute.processors.RemoteServiceProcessor { *; }
 ```
 
 ## 依赖
 ### Gradle 在各个组件中引入processroute框架及配套的annotationProcessor处理器
 ```Xml
- implementation 'com.fanjun:processroute:1.0.8'
+ implementation 'com.fanjun:processroute:1.0.9'
  annotationProcessor 'com.fanjun:processroutecompiler:1.0.6'
 ```
 
