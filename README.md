@@ -68,7 +68,7 @@
           void login(String username, String password, CallbackProcessor<String> callbackProcessor);
         }
 ```
-#### 在Application中注册
+#### 在Common包中的Application中注册
 ```Java
         //我们需要在公共的Application中注册
         ... extends Application {
@@ -105,6 +105,41 @@
 ```
 ### 【end】
 
+## 进阶
+### 1.实现各组件的Application共享
+#### 在Plug1模块中新建Plug1Application 并实现ApplicationDelegate协议，并添加RegistApplication注解，框架将自动将注册共享Application
+```Java
+@RegistApplication
+public class Plug1Application implements ApplicationDelegate {
+    @Override
+    public void onCreate(Application application) {
+    }
+
+    @Override
+    public void onTerminate(Application application) {
+
+    }
+}
+```
+#### 在Common包中的Application中注册组件的ApplicationDelegate
+```Java
+public class BaseApplication extends Application {
+    public static Application application;
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        ProcessRoute.ini(this, BuildConfig.isPlugMode);
+        ProcessRoute.onApplicationCreate();//必须先初始化后再调用
+    }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        ProcessRoute.onApplicationTerminate();
+    }
+}
+```
+
 ## 混淆方式
 ```Xml
 -keepattributes Signature
@@ -121,10 +156,10 @@
 ```
 
 ## 依赖
-### Gradle
+### Gradle 在各个组件中引入processroute框架及配套的annotationProcessor处理器
 ```Xml
- implementation 'com.fanjun:processroute:1.0.7'
- annotationProcessor 'com.fanjun:processroutecompiler:1.0.5'
+ implementation 'com.fanjun:processroute:1.0.8'
+ annotationProcessor 'com.fanjun:processroutecompiler:1.0.6'
 ```
 
 ## 联系我
