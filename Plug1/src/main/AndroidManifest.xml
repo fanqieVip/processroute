@@ -1,0 +1,9 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.plug.plug1">
+    <application
+        android:theme="@style/AppTheme">
+        <activity android:name=".activitys.TestActivity" />
+        <service android:name=".activitys.TextService"/>
+    </application>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+</manifest>
