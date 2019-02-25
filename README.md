@@ -204,7 +204,7 @@ dependencies {
 ## 依赖
 ### Gradle 在各个组件中引入processroute框架及配套的annotationProcessor处理器
 ```Xml
- implementation 'com.fanjun:processroute:1.0.9'
+ implementation 'com.fanjun:processroute:1.0.10'
  annotationProcessor 'com.fanjun:processroutecompiler:1.0.6'
 ```
 
