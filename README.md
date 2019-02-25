@@ -169,6 +169,20 @@ public class RemoteServiceOfPlug1Impl implements RemoteServiceOfPlug1 {
           }
         }
 ```
+### 3.快捷部署组件化Moudule
+#### 在Project的classpath中去掉com.android.tools.build:gradle:x.x.x，替换为com.fanjun.hookgradle:1.0.1
+```xml
+dependencies {
+        //当前插件版本基于【classpath：gradle:3.2.0】 + 【gradle-wrapper.properties：gradle-4.6-all.zip】构建
+        classpath 'com.fanjun.hookgradle:1.0.1'
+    }
+```
+#### 与原生gradle一样，通过apply plugin: 'com.android.application' 或 'com.android.library'切换组件运行模式 
+##### 1.Module无需动态设置applicationId，建议像开发Application一样设置上applicationId（无需关注运行模式）
+##### 2.Module无需动态设置sourceSets.main.manifest.srcFile，插件会自动配置
+##### 3.Module无需再创建一个Manifest.xml文件用于适配运行模式，插件会自动生成并自动关联切换
+##### 4.Module默认的Manifest.xml将用于Application模式时加载，您可以像写Application一样的编写Manifest.xml文件
+
 ## 混淆方式
 ```Xml
 -keepattributes Signature
