@@ -8,6 +8,10 @@
 ## 可跟踪通讯过程中及接口协议关联的独立组件执行过程中所有异常
 ## 无需配置，只需在各组件依赖的Common包引入即可集成
 
+## 更新日志
+#### 优化了错误日志的输出方式，可通过控制台看到错误信息
+#### 修复了部分已知bug
+
 ## 使用方式
 
 ### 【前提】
@@ -98,9 +102,6 @@
                                        
                                     @Override
                                     public void callback(String obj) {}
-                                    //可选实现
-                                    @Override
-                                    public void fail(String errorMsg) {}
                                 }).send()
 ```
 ### 【end】
@@ -204,7 +205,7 @@ dependencies {
 ## 依赖
 ### Gradle 在各个组件中引入processroute框架及配套的annotationProcessor处理器
 ```Xml
- implementation 'com.fanjun:processroute:1.0.10'
+ implementation 'com.fanjun:processroute:1.0.11'
  annotationProcessor 'com.fanjun:processroutecompiler:1.0.6'
 ```
 
