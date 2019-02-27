@@ -176,7 +176,7 @@ public class RemoteServiceOfPlug1Impl implements RemoteServiceOfPlug1 {
 ```xml
 dependencies {
         //当前插件版本基于【classpath：gradle:3.2.0】 + 【gradle-wrapper.properties：gradle-4.6-all.zip】构建
-        classpath 'com.fanjun.hookgradle:1.0.1'
+        classpath 'com.fanjun:hookgradle:1.0.0'
     }
 ```
 #### 与原生gradle一样，通过apply plugin: 'com.android.application' 或 'com.android.library'切换组件运行模式 
