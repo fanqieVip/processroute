@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><manifest package="com.plug.plug2">
+  <application>
+    <activity xmlns:android="http://schemas.android.com/apk/res/android" android:name="com.plug.plug2.activitys.Test2Activity">
+      <intent-filter/>
+    </activity>
+    <activity xmlns:android="http://schemas.android.com/apk/res/android" android:name=".activitys.Test3Activity"/>
+  </application>
+</manifest>
