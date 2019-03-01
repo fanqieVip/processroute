@@ -185,6 +185,24 @@ dependencies {
 ##### 3.Module无需再创建一个Manifest.xml文件用于适配运行模式，插件会自动生成并自动关联切换
 ##### 4.Module默认的Manifest.xml将用于Application模式时加载，您可以像写Application一样的编写Manifest.xml文件
 
+### 4.快捷部署插件化Moudule
+#### 在Moudule的Manifest.xml中添加隐式启动的intent-filter，可隐藏桌面图标
+#### 将所有组件应用apply plugin: 'com.android.application'，以Application模式运行
+```xml
+<activity
+            android:name=".activity.MainActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <data android:host=".activity.MainActivity" android:scheme="包名"
+                    tools:ignore="AppLinkUrlError" />//隐式启动
+            </intent-filter>
+        </activity>
+```
+##### 1.由于所有Moudule共同依赖的Common包中定义的Service协议主要用以自动生成协议描述文件，进程通讯协议则依赖的是该自动生成协议描述文件，所以即时宿主不更新的情况下，单独更新各个组件也能正常通讯
+##### 2.该插件化方案相对简单一些，但安装插件需要用户像安装普通应用一样确认。
+
 ## 混淆方式
 ```Xml
 -keepattributes Signature
