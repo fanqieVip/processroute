@@ -16,6 +16,7 @@
 ## 使用方式
 
 ### 【前提】
+#### 组件单独打包测试时，测试机请关闭链式启动的控制
 #### 你已知道如何进行组件化的基础框架搭建，如不太清楚可参照该入门教程 https://blog.csdn.net/guiying712/article/details/55213884 （请忽略组件通讯相关内容，不值得浪费时间）
 #### 您将各组件包括主工程均引用了一个公用库（下面统称：Common）
 #### 您将各组件包括主工程的模型均放入了引用的Common包中
@@ -184,24 +185,6 @@ dependencies {
 ##### 2.Module无需动态设置sourceSets.main.manifest.srcFile，插件会自动配置
 ##### 3.Module无需再创建一个Manifest.xml文件用于适配运行模式，插件会自动生成并自动关联切换
 ##### 4.Module默认的Manifest.xml将用于Application模式时加载，您可以像写Application一样的编写Manifest.xml文件
-
-### 4.快捷部署插件化Moudule
-#### 在Moudule的Manifest.xml中添加隐式启动的intent-filter，可隐藏桌面图标
-#### 将所有组件应用apply plugin: 'com.android.application'，以Application模式运行
-```xml
-<activity
-            android:name=".activity.MainActivity"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-                <data android:host=".activity.MainActivity" android:scheme="包名"
-                    tools:ignore="AppLinkUrlError" />//隐式启动
-            </intent-filter>
-        </activity>
-```
-##### 1.由于所有Moudule共同依赖的Common包中定义的Service协议主要用以自动生成协议描述文件，进程通讯协议则依赖的是该自动生成协议描述文件，所以即时宿主不更新的情况下，单独更新各个组件也能正常通讯
-##### 2.该插件化方案相对简单一些，但安装插件需要用户像安装普通应用一样确认。
 
 ## 混淆方式
 ```Xml
