@@ -9,6 +9,8 @@
 ## 无需配置，只需在各组件依赖的Common包引入即可集成
 
 ## 更新日志
+### 2019-03-19
+#### 更新了hookgradle插件，新增了组件化R非常量解决方案
 ### 2019-02-27
 #### 优化了错误日志的输出方式，可通过控制台看到错误信息
 #### 修复了部分已知bug
@@ -177,7 +179,7 @@ public class RemoteServiceOfPlug1Impl implements RemoteServiceOfPlug1 {
 ```xml
 dependencies {
         //当前插件版本基于【classpath：gradle:3.2.0】 + 【gradle-wrapper.properties：gradle-4.6-all.zip】构建
-        classpath 'com.fanjun:hookgradle:1.0.0'
+        classpath 'com.fanjun:hookgradle:1.0.1'
     }
 ```
 #### 与原生gradle一样，通过apply plugin: 'com.android.application' 或 'com.android.library'切换组件运行模式 
@@ -185,6 +187,31 @@ dependencies {
 ##### 2.Module无需动态设置sourceSets.main.manifest.srcFile，插件会自动配置
 ##### 3.Module无需再创建一个Manifest.xml文件用于适配运行模式，插件会自动生成并自动关联切换
 ##### 4.Module默认的Manifest.xml将用于Application模式时加载，您可以像写Application一样的编写Manifest.xml文件
+
+### 4.组件化Moudule的R文件非常量解决方案
+#### 在Project的classpath中去掉com.android.tools.build:gradle:x.x.x，替换为com.fanjun.hookgradle:1.0.1
+```xml
+dependencies {
+        //当前插件版本基于【classpath：gradle:3.2.0】 + 【gradle-wrapper.properties：gradle-4.6-all.zip】构建
+        classpath 'com.fanjun:hookgradle:1.0.1'
+    }
+```
+#### 在组件化Moudule的build.gradle文件中 apply plugin: 'com.fanjun.autor'
+```xml
+apply plugin: 'com.fanjun.autor'
+android {
+    //...
+}
+```
+#### 在所有类的外部访问R文件资源id的地方使用R_访问（如 R_.layout.activity_main ），类的内部随您的喜好。(请忽略EActivity注解，这只是用于举例)
+```xml
+@EActivity(R_.layout.activity_ba)
+public class BActivity extends Activity {
+}
+```
+#### 与原生R文件一样，插件生成的 R_ 文件会实时同步最新的id信息，并自动根据组件运行模式读取Moudule的R或者宿主的R
+##### 您无需关注R_文件的生成情况，即无需clean、build、sync等操作
+##### 注意：当您的Moudule以Library运行时，插件默认认为它的宿主Moudule的名称为app（切记切记！！！）
 
 ## 混淆方式
 ```Xml
