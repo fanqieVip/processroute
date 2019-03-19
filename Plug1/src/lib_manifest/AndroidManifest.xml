@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><manifest package="com.plug.plug1">
-  <application>
-    <activity xmlns:android="http://schemas.android.com/apk/res/android" android:name=".activitys.TestActivity">
-      <intent-filter/>
-    </activity>
-  </application>
-</manifest>
