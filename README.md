@@ -211,7 +211,8 @@ public class BActivity extends Activity {
 ```
 #### 与原生R文件一样，插件生成的 R_ 文件会实时同步最新的id信息，并自动根据组件运行模式读取Moudule的R或者宿主的R
 ##### 您无需关注R_文件的生成情况，即无需clean、build、sync等操作
-##### 注意：当您的Moudule以Library运行时，插件默认认为它的宿主Moudule的名称为app（切记切记！！！）
+##### 注意1：当您的Moudule以Library运行时，插件默认认为它的宿主Moudule的名称为app（切记切记！！！）
+##### 注意2：您的组件Moudule的名字不要以a或A开头
 
 ## 混淆方式
 ```Xml
