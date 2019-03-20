@@ -219,6 +219,7 @@ public class BActivity extends Activity {
 
 ### 5.组件化 转 插件化的解决方案
 #### 在你的需要以插件打包的组件Moudule的Manifest文件中，使用以下activity作为入口应用入口Activity
+```xml
 <activity android:name="com.fanjun.processroute.activity.InvisibleActivity" android:theme="@style/invisibleActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -227,6 +228,7 @@ public class BActivity extends Activity {
                     tools:ignore="AppLinkUrlError"/>
             </intent-filter>
         </activity>
+```
 #### 这样设置后打包成APK即可作为宿主的插件使用
 ##### 1.在开发阶段你可以暂时屏蔽这段代码，使用你期望的那个activity作为启动页面，但是在打包成插件APK时一定要改回来
 ##### 2.该方案是类似支付宝安装指纹支付插件的方式，用户需要像安装普通应用一般的安装你的插件，但是该插件并不会用户的手机桌面上显示图标
