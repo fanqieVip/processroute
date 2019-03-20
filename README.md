@@ -1,5 +1,6 @@
 # ProcessRoute for Android 跨进程事件路由框架
 ## 用于解决安卓组件化下各组件间交叉通讯的问题
+## 支持插件化和组件化
 ## 与ARoater不同的是，ProcessRoute是依托AIDL作为通讯纽带，以接口协议为中间件，采取事件机制进行通讯的框架
 ## 支持跨进程发送消息，且自由回调
 ## 通讯协议为Interface接口，可指定通讯进程、输入参数（数量最大10个）、回调参数
@@ -9,6 +10,8 @@
 ## 无需配置，只需在各组件依赖的Common包引入即可集成
 
 ## 更新日志
+### 2019-03-20
+#### 更新了processroute到1.0.13，新增了【组件化 转 插件化】解决方案
 ### 2019-03-19
 #### 更新了hookgradle插件，新增了组件化R非常量解决方案
 ### 2019-02-27
@@ -214,6 +217,22 @@ public class BActivity extends Activity {
 ##### 注意1：当您的Moudule以Library运行时，插件默认认为它的宿主Moudule的名称为app（切记切记！！！）
 ##### 注意2：您的组件Moudule的名字不要以a或A开头
 
+### 5.组件化 转 插件化的解决方案
+#### 在你的需要以插件打包的组件Moudule的Manifest文件中，使用以下activity作为入口应用入口Activity
+<activity android:name="com.fanjun.processroute.activity.InvisibleActivity" android:theme="@style/invisibleActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <data android:host="InvisibleActivity" android:scheme="com.fanjun.processroute.activity"
+                    tools:ignore="AppLinkUrlError"/>
+            </intent-filter>
+        </activity>
+#### 这样设置后打包成APK即可作为宿主的插件使用
+##### 1.在开发阶段你可以暂时屏蔽这段代码，使用你期望的那个activity作为启动页面，但是在打包成插件APK时一定要改回来
+##### 2.该方案是类似支付宝安装指纹支付插件的方式，用户需要像安装普通应用一般的安装你的插件，但是该插件并不会用户的手机桌面上显示图标
+##### 3.该方案的通讯机制与组件化一模一样，您无需担心切换后产生通讯问题
+##### 4.框架已绕过AIDL通讯引发手机的反链式启动程序的限制，可以自由自在的阻碍通讯
+
 ## 混淆方式
 ```Xml
 -keepattributes Signature
@@ -235,7 +254,7 @@ public class BActivity extends Activity {
 ## 依赖
 ### Gradle 在各个组件中引入processroute框架及配套的annotationProcessor处理器
 ```Xml
- implementation 'com.fanjun:processroute:1.0.12'
+ implementation 'com.fanjun:processroute:1.0.13'
  annotationProcessor 'com.fanjun:processroutecompiler:1.0.6'
 ```
 
