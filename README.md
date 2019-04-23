@@ -180,11 +180,11 @@ public class RemoteServiceOfPlug1Impl implements RemoteServiceOfPlug1 {
         }
 ```
 ### 3.快捷部署组件化Moudule
-#### 在Project的classpath中去掉com.android.tools.build:gradle:x.x.x，替换为com.fanjun.hookgradle:1.0.1
+#### 在Project的classpath中去掉com.android.tools.build:gradle:x.x.x，替换为com.fanjun.hookgradle:1.0.3
 ```xml
 dependencies {
         //当前插件版本基于【classpath：gradle:3.2.0】 + 【gradle-wrapper.properties：gradle-4.6-all.zip】构建
-        classpath 'com.fanjun:hookgradle:1.0.2'
+        classpath 'com.fanjun:hookgradle:1.0.3'
     }
 ```
 #### 与原生gradle一样，通过apply plugin: 'com.android.application' 或 'com.android.library'切换组件运行模式 
@@ -194,11 +194,11 @@ dependencies {
 ##### 4.Module默认的Manifest.xml将用于Application模式时加载，您可以像写Application一样的编写Manifest.xml文件
 
 ### 4.组件化Moudule的R文件非常量解决方案
-#### 在Project的classpath中去掉com.android.tools.build:gradle:x.x.x，替换为com.fanjun.hookgradle:1.0.2
+#### 在Project的classpath中去掉com.android.tools.build:gradle:x.x.x，替换为com.fanjun.hookgradle:1.0.3
 ```xml
 dependencies {
         //当前插件版本基于【classpath：gradle:3.2.0】 + 【gradle-wrapper.properties：gradle-4.6-all.zip】构建
-        classpath 'com.fanjun:hookgradle:1.0.2'
+        classpath 'com.fanjun:hookgradle:1.0.3'
     }
 ```
 #### 在组件化Moudule的build.gradle文件中 apply plugin: 'com.fanjun.autor'
