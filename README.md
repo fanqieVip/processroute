@@ -10,6 +10,8 @@
 ## 无需配置，只需在各组件依赖的Common包引入即可集成
 
 ## 更新日志
+### 2019-04-23
+#### 更新了hookgradle到1.0.2，修复了部分已知bug
 ### 2019-03-20
 #### 更新了processroute到1.0.13，新增了【组件化 转 插件化】解决方案
 ### 2019-03-19
@@ -192,11 +194,11 @@ dependencies {
 ##### 4.Module默认的Manifest.xml将用于Application模式时加载，您可以像写Application一样的编写Manifest.xml文件
 
 ### 4.组件化Moudule的R文件非常量解决方案
-#### 在Project的classpath中去掉com.android.tools.build:gradle:x.x.x，替换为com.fanjun.hookgradle:1.0.1
+#### 在Project的classpath中去掉com.android.tools.build:gradle:x.x.x，替换为com.fanjun.hookgradle:1.0.2
 ```xml
 dependencies {
         //当前插件版本基于【classpath：gradle:3.2.0】 + 【gradle-wrapper.properties：gradle-4.6-all.zip】构建
-        classpath 'com.fanjun:hookgradle:1.0.1'
+        classpath 'com.fanjun:hookgradle:1.0.2'
     }
 ```
 #### 在组件化Moudule的build.gradle文件中 apply plugin: 'com.fanjun.autor'
