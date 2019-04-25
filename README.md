@@ -11,7 +11,7 @@
 
 ## 更新日志
 ### 2019-04-24
-#### 更新了processroute到1.0.14，修复了部分已知bug
+#### 更新了processroute到1.0.15，修复了部分已知bug
 ### 2019-04-23
 #### 更新了hookgradle到1.0.2，修复了部分已知bug
 ### 2019-03-20
@@ -260,7 +260,7 @@ public class BActivity extends Activity {
 ## 依赖
 ### Gradle 在各个组件中引入processroute框架及配套的annotationProcessor处理器
 ```Xml
- implementation 'com.fanjun:processroute:1.0.14'
+ implementation 'com.fanjun:processroute:1.0.15'
  annotationProcessor 'com.fanjun:processroutecompiler:1.0.6'
 ```
 
