@@ -251,6 +251,9 @@ public class BActivity extends Activity {
 -keepclassmembers class * {
    public <init> (org.json.JSONObject);
 }
+-keep class **.R_$* {
+ *;
+}
 -keep @com.fanjun.processroute.annotation.RemoteServiceImpl class * {*;}
 -keepnames class com.fanjun.processroute.apt.** { *; }
 -keepnames class * implements com.fanjun.processroute.application.ApplicationDelegate { *; }
